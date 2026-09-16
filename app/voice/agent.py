@@ -1,4 +1,4 @@
-```python
+
 """The conversational brain.
 
 Deliberately knows nothing about Twilio or Vapi. It takes a transcript of what
@@ -682,76 +682,7 @@ def _trim(
         tail = tail[1:]
 
     return head + tail
-```
+
 
 ### Then do these commands
 
-First save the file.
-
-Then run:
-
-```bat
-python -m py_compile app\voice\agent.py
-```
-
-If you get **no output**, the file has valid Python syntax.
-
-Then:
-
-```bat
-git add app\voice\agent.py
-git commit -m "Fix voice agent one question at a time"
-git push
-```
-
-Railway should automatically redeploy.
-
-### One important thing
-
-Your previous Railway error is already fixed, because your `/health` endpoint returned:
-
-```json
-{
-  "data": {
-    "status": "ok",
-    "database": "up",
-    "llm_configured": true,
-    "telephony_configured": false
-  },
-  "error": null
-}
-```
-
-So **don't change the Dockerfile again**.
-
-After Railway finishes deploying, call your Twilio number again. The intended flow should now be:
-
-```text
-Riley: What is your first and last name?
-
-You: Haider Ali
-
-Riley: Perfect. What is your date of birth?
-
-You: January 5, 1995
-
-Riley: Thanks. What is your sex, male or female?
-
-[WAIT FOR YOU]
-
-You: Male
-
-Riley: Thanks. What is your phone number?
-
-[WAIT FOR YOU]
-
-You: 5551234567
-
-Riley: Got it. What is your street address?
-
-[WAIT FOR YOU]
-```
-
-The important change is that **the follow-up LLM call has no tools at all**. Therefore it cannot secretly call `save_field` for the next piece of information before Twilio receives the response and starts a new `/voice/turn`.
-
-Also, since this is a patient-registration application, keep your real patient data out of logs and test calls where possible.
