@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intake desk — Lakeside Family Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #e9ede9;
+    --surface: #ffffff;
+    --ink: #16231f;
+    --muted: #5d6b65;
+    --line: #ccd5cf;
+    --accent: #14544a;
+    --amber: #8a6206;
+    --alert: #9c3720;
+    --serif: "Spectral", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  header.masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 16px 28px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .clinic {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 30px;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+
+  .clinic span { color: var(--muted); font-weight: 400; }
+
+  .masthead .meta { margin-left: auto; color: var(--muted); font-size: 14px; }
+  .masthead .meta b { color: var(--ink); font-weight: 600; font-family: var(--mono); }
+
+  .callout {
+    margin: 24px 0 28px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border-left: 4px solid var(--accent);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 28px;
+    align-items: baseline;
+  }
+  .callout p { margin: 0; }
+  .callout .num {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  form.search { display: flex; gap: 10px; margin: 0 0 22px; }
+  form.search input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    font: inherit;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+  }
+  form.search input:focus-visible,
+  button:focus-visible,
+  a:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  form.search button {
+    padding: 10px 20px;
+    font: inherit;
+    font-weight: 500;
+    color: var(--surface);
+    background: var(--accent);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  form.search a.clear { align-self: center; color: var(--muted); font-size: 14px; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 40px 0 12px;
+  }
+
+  .ledger { background: var(--surface); border: 1px solid var(--line); }
+
+  details.record { border-bottom: 1px solid var(--line); }
+  details.record:last-child { border-bottom: none; }
+  details.record[open] { background: #f7faf8; }
+
+  summary {
+    display: grid;
+    grid-template-columns: minmax(180px, 2fr) 120px 150px 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 13px 18px;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { background: #f2f6f3; }
+
+  .who { font-weight: 600; }
+  .dob, .tel { font-family: var(--mono); font-size: 13.5px; color: var(--muted); }
+  .where { color: var(--muted); font-size: 14px; }
+
+  .tag {
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .tag.voice { border-color: var(--accent); color: var(--accent); }
+  .tag.seed  { border-color: var(--amber); color: var(--amber); }
+
+  dl.detail {
+    margin: 0;
+    padding: 4px 18px 20px;
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 6px 20px;
+    font-size: 14.5px;
+  }
+  dl.detail dt { color: var(--muted); }
+  dl.detail dd { margin: 0; }
+  dl.detail dd.id { font-family: var(--mono); font-size: 13px; word-break: break-all; }
+
+  .empty {
+    background: var(--surface);
+    border: 1px dashed var(--line);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty strong { display: block; color: var(--ink); font-size: 17px; margin-bottom: 6px; }
+
+  .calls { display: grid; gap: 12px; }
+  .call {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 12px 16px;
+  }
+  .call h3 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .call h3 .sid { font-family: var(--mono); font-weight: 400; color: var(--muted); font-size: 12.5px; }
+  .call .outcome { color: var(--accent); }
+  .call .outcome.bad { color: var(--alert); }
+  .call pre {
+    margin: 0;
+    max-height: 190px;
+    overflow: auto;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--muted);
+  }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 760px) {
+    summary { grid-template-columns: 1fr auto; gap: 4px 12px; }
+    .dob, .where { grid-column: 1 / -1; }
+    dl.detail { grid-template-columns: 1fr; gap: 2px; }
+    dl.detail dt { margin-top: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <h1 class="clinic">Lakeside Family Health <span>intake desk</span></h1>
+    <p class="meta">Registered patients <b>{{ total }}</b></p>
+  </header>
+
+  <div class="callout">
+    <p>Call the agent to register a patient:</p>
+    <p class="num">{{ phone_number or "not configured" }}</p>
+  </div>
+
+  <form class="search" method="get" action="/dashboard">
+    <label for="q" class="sr-only" hidden>Search patients</label>
+    <input id="q" name="q" value="{{ query }}" placeholder="Search by name, phone, or city" autocomplete="off">
+    <button type="submit">Search</button>
+    {% if query %}<a class="clear" href="/dashboard">Show all</a>{% endif %}
+  </form>
+
+  {% if rows %}
+  <div class="ledger">
+    {% for r in rows %}
+    <details class="record">
+      <summary>
+        <span class="who">{{ r.name }}</span>
+        <span class="dob">{{ r.dob }}</span>
+        <span class="tel">{{ r.phone }}</span>
+        <span class="where">{{ r.address }}</span>
+        <span class="tag {{ r.source }}">{{ r.source }}</span>
+      </summary>
+      <dl class="detail">
+        <dt>Patient ID</dt><dd class="id">{{ r.patient_id }}</dd>
+        <dt>Sex</dt><dd>{{ r.sex }}</dd>
+        <dt>Email</dt><dd>{{ r.email or "—" }}</dd>
+        <dt>Insurance</dt>
+        <dd>{% if r.insurance %}{{ r.insurance }}{% if r.member_id %} · member {{ r.member_id }}{% endif %}{% else %}—{% endif %}</dd>
+        <dt>Preferred language</dt><dd>{{ r.language or "English" }}</dd>
+        <dt>Emergency contact</dt><dd>{{ r.emergency or "—" }}</dd>
+        <dt>Registered</dt><dd>{{ r.created_at.strftime("%b %d, %Y at %H:%M UTC") }}</dd>
+      </dl>
+    </details>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <strong>{% if query %}No patients match "{{ query }}".{% else %}No patients registered yet.{% endif %}</strong>
+    {% if query %}Try a last name or the last four digits of a phone number.
+    {% else %}Call the number above and register one — the record shows up here as soon as the caller confirms.{% endif %}
+  </div>
+  {% endif %}
+
+  {% if calls %}
+  <h2>Recent calls</h2>
+  <div class="calls">
+    {% for c in calls %}
+    <article class="call">
+      <h3>
+        <span class="outcome {% if 'error' in c.outcome or 'abandoned' in c.outcome %}bad{% endif %}">{{ c.outcome.replace("_", " ") }}</span>
+        <span>{{ c.from_number or "unknown caller" }}</span>
+        <span class="sid">{{ c.call_sid }}</span>
+        <span class="sid">{{ c.started_at.strftime("%b %d, %H:%M UTC") }}</span>
+      </h3>
+      <pre>{{ c.transcript or "No transcript captured." }}</pre>
+    </article>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <footer>
+    Read-only view of the same database the voice agent writes to.
+    Full record data is available from the <a href="/docs">REST API</a>.
+  </footer>
+
+</div>
+</body>
+</html>
