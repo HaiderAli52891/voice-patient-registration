@@ -85,7 +85,7 @@ def _listen(response: VoiceResponse) -> VoiceResponse:
     """Attach a speech <Gather> that posts the caller's words to /voice/turn."""
     gather = Gather(
         input="speech",
-        action="/voice/turn",
+        action="https://web-production-9dd9e.up.railway.app/voice/turn",
         method="POST",
         speech_timeout="auto",
         speech_model="phone_call",
